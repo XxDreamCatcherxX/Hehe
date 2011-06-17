@@ -41,7 +41,7 @@
     fprintf(hosts, "%s\n", line)
 
 #define PRINT_USAGE \
-    printf("LocalghostHelper (--enable|--disable) host [port]\n"); \
+    printf("LocalghostHelper (--enable|--disable) host ip [port]\n"); \
     return 1
 
 #define CONFIG_FILE_FORMAT \
@@ -118,7 +118,7 @@ static void create_proxy(const char *host, int port)
     restart_apache();
 }
 
-static void set_enabled(const char *host, int enabled)
+static void set_enabled(const char *host, const char *ip, int enabled)
 {
     FILE *hosts = NULL;
     char buffer[BUFFER_SIZE];
@@ -156,7 +156,7 @@ static void set_enabled(const char *host, int enabled)
         }
         else if(strstr(line, host))
         {
-            if(strstr(line, "127.0.0.1"))
+            if(strstr(line, ip))
             {
                 if(enabled)
                 {
@@ -177,7 +177,7 @@ static void set_enabled(const char *host, int enabled)
 
     if(enabled && !found)
     {
-        fprintf(hosts, "127.0.0.1\t%s\n", host);
+        fprintf(hosts, strcat(ip, "\t%s\n"), host);
     }
 
     flock(fileno(hosts), LOCK_UN);
@@ -190,15 +190,17 @@ int main(int argc, char *argv[])
     const char *mode = NULL;
     const char *host = NULL;
     const char *port = NULL;
-
-    if(argc < 3 || argc > 4)
+    const char *ip = NULL;
+	
+    if(argc < 4 || argc > 5)
     {
         PRINT_USAGE;
     }
 
     mode = argv[1];
     host = argv[2];
-    port = argc == 4 ? argv[3] : NULL;
+	ip   = argv[3];
+    port = argc == 5 ? argv[4] : NULL;
 
     if(setuid(0) != 0)
     {
@@ -208,7 +210,7 @@ int main(int argc, char *argv[])
 
     if(strcmp(mode, "--enable") == 0 && (!port || atoi(port) > 0))
     {
-        set_enabled(host, TRUE);
+        set_enabled(host, ip, TRUE);
 
         if(port)
         {
@@ -217,7 +219,7 @@ int main(int argc, char *argv[])
     }
     else if(strcmp(mode, "--disable") == 0)
     {
-        set_enabled(host, FALSE);
+        set_enabled(host, ip, FALSE);
         remove_proxy(host);
     }
     else

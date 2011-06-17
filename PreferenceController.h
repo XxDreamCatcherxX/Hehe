@@ -27,6 +27,7 @@
     IBOutlet NSWindow *addHostSheet;
     IBOutlet NSTextField *hostTextField;
     IBOutlet NSTextField *portTextField;
+    IBOutlet NSTextField *ipTextField;
     IBOutlet NSButton *proxyRequestsButton;
 }
 
