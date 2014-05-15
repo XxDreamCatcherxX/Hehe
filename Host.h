@@ -21,6 +21,7 @@
 {
     NSString *name;
     NSString *port;
+    NSString *ip;
     BOOL active;
 }
 
@@ -28,6 +29,7 @@
 
 @property (readwrite, copy) NSString *name;
 @property (readwrite, copy) NSString *port;
+@property (readwrite, copy) NSString *ip;
 @property (readwrite, assign) BOOL active;
 
 @end

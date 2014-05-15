@@ -53,6 +53,7 @@
 {
     [hostTextField setStringValue: @""];
     [portTextField setStringValue: @""];
+    [ipTextField setStringValue: @"127.0.0.1"];
     [proxyRequestsButton setState: NSOffState];
     [portTextField setEnabled: NSOffState];
 
@@ -67,6 +68,7 @@
 {
     Host *host = [[Host alloc] initWithName: [hostTextField stringValue]];
     [host setPort: [portTextField stringValue]];
+    [host setIp: [ipTextField stringValue]];
     [hostsController addObject: host];
     [host release];
     [self save];
@@ -124,6 +126,7 @@
         Host *host = [hosts objectAtIndex: i];
         [entry setObject: [host name] forKey: @"Name" ];
         [entry setObject: [host port] forKey: @"Port" ];
+        [entry setObject: [host ip] forKey: @"Ip" ];
         [values addObject: entry];
     }
 
@@ -168,6 +171,7 @@
         {
             host = [host initWithName: [entry valueForKey: @"Name"]];
             [host setPort: [entry valueForKey: @"Port"]];
+			[host setIp: [entry valueForKey: @"Ip"]];
         }
         else
         {

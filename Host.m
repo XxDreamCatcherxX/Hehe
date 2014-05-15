@@ -21,6 +21,7 @@
 
 @synthesize name;
 @synthesize port;
+@synthesize ip;
 @synthesize active;
 
 - (id) initWithName: (NSString *) n
@@ -31,6 +32,7 @@
     {
         [self setName: n];
         [self setPort: @""];
+		[self setIp: @"127.0.0.1"];
         [self setActive: NO];
     }
 
@@ -46,6 +48,7 @@
 {
     [name release];
     [port release];
+    [ip release];
     [super dealloc];
 }
 

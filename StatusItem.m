@@ -123,8 +123,8 @@ static SFAuthorization *authorization = nil;
         NSString *mode = active ? @"--enable" : @"--disable";
 
         NSArray *arguments = ([[host port] length] > 0) ?
-            [NSArray arrayWithObjects: mode, [host name], [host port], nil] :
-            [NSArray arrayWithObjects: mode, [host name], nil];
+            [NSArray arrayWithObjects: mode, [host name], [host ip], [host port], nil] :
+            [NSArray arrayWithObjects: mode, [host name], [host ip], nil];
 
         [task setArguments: arguments];
         [task launch];
